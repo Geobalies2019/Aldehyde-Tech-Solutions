@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aldehyde Tech Solutions — NIMC NIN Processing | Washington State</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #008751;
+    --green-dark: #005c38;
+    --green-light: #00a863;
+    --white: #ffffff;
+    --red: #c0392b;
+    --cream: #f9f7f2;
+    --charcoal: #1a1a1a;
+    --mid: #4a4a4a;
+    --border: rgba(0,135,81,0.15);
+    --shadow: 0 20px 60px rgba(0,135,81,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ─────────────────────────────────────────── */
+  .hero {
+    background:
+      /* grain texture overlay */
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"),
+      /* diagonal red slash top-right */
+      linear-gradient(135deg, transparent 58%, rgba(210,30,30,0.18) 58%, rgba(210,30,30,0.18) 72%, transparent 72%),
+      /* off-white panel right side */
+      linear-gradient(105deg, transparent 55%, rgba(248,244,236,0.07) 55%),
+      /* main rich green gradient */
+      linear-gradient(145deg, #003d22 0%, #005c38 35%, #007a4a 65%, #004d30 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Geometric diamond/rhombus pattern */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        rgba(248,244,236,0.032) 0px,
+        rgba(248,244,236,0.032) 1px,
+        transparent 1px,
+        transparent 28px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        rgba(248,244,236,0.032) 0px,
+        rgba(248,244,236,0.032) 1px,
+        transparent 1px,
+        transparent 28px
+      );
+    z-index: 0;
+  }
+
+  /* Flashy red arc sweep top-right */
+  .hero-arc-red {
+    position: absolute;
+    top: -180px; right: -180px;
+    width: 560px; height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 40%, rgba(220,30,30,0.55) 0%, rgba(180,20,20,0.28) 38%, transparent 68%);
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+
+  /* Off-white geometric shard bottom-left */
+  .hero-shard-cream {
+    position: absolute;
+    bottom: -60px; left: -40px;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 0 380px 320px;
+    border-color: transparent transparent rgba(248,244,236,0.06) transparent;
+    z-index: 1;
+  }
+
+  /* Bold red vertical accent bar */
+  .hero-red-bar {
+    position: absolute;
+    top: 0; right: 220px;
+    width: 5px; height: 100%;
+    background: linear-gradient(180deg, rgba(220,30,30,0) 0%, rgba(220,30,30,0.7) 30%, rgba(220,30,30,0.7) 70%, rgba(220,30,30,0) 100%);
+    z-index: 1;
+  }
+
+  /* Second thinner red bar */
+  .hero-red-bar2 {
+    position: absolute;
+    top: 0; right: 200px;
+    width: 2px; height: 100%;
+    background: linear-gradient(180deg, rgba(220,30,30,0) 0%, rgba(220,30,30,0.35) 30%, rgba(220,30,30,0.35) 70%, rgba(220,30,30,0) 100%);
+    z-index: 1;
+  }
+
+  /* Large off-white circle outline decorative */
+  .hero-circle-outline {
+    position: absolute;
+    bottom: -120px; right: 80px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(248,244,236,0.08);
+    z-index: 1;
+  }
+
+  .hero-circle-outline2 {
+    position: absolute;
+    bottom: -80px; right: 120px;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    border: 1px solid rgba(220,30,30,0.12);
+    z-index: 1;
+  }
+
+  /* Red glow bottom accent */
+  .hero-red-glow {
+    position: absolute;
+    bottom: -80px; left: 30%;
+    width: 400px; height: 250px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(210,30,30,0.2) 0%, transparent 70%);
+    z-index: 1;
+  }
+
+  /* Off-white horizontal rule lines */
+  .hero-hlines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(90deg, rgba(248,244,236,0.06) 0px, rgba(248,244,236,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(248,244,236,0.03) 0px, rgba(248,244,236,0.03) 1px, transparent 1px);
+    background-size: 200px 100%, 40px 100%;
+    z-index: 0;
+  }
+
+  /* Keep old names for back-compat but make invisible */
+  .hero-stripe { display: none; }
+  .hero-stripe2 { display: none; }
+
+  /* Nigeria flag bar */
+  .flag-bar {
+    display: flex;
+    height: 10px;
+    width: 100%;
+    position: relative;
+    z-index: 20;
+  }
+  .flag-bar span { flex: 1; }
+  .flag-bar .g { background: linear-gradient(90deg, #008751, #00a863); }
+  .flag-bar .w { background: linear-gradient(90deg, #f8f4ec, #ffffff, #f8f4ec); }
+  .flag-bar .r { background: linear-gradient(90deg, #cc1a1a, #e82020); flex: 0.3; }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 60px;
+    position: relative;
+    z-index: 20;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-badge {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--green-dark);
+    letter-spacing: -1px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .logo-text {
+    color: var(--white);
+  }
+  .logo-text strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    line-height: 1.1;
+  }
+  .logo-text span {
+    font-size: 11px;
+    opacity: 0.55;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .nav-cta {
+    background: var(--white);
+    color: var(--green-dark);
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover {
+    background: var(--green-light);
+    color: var(--white);
+    transform: translateY(-1px);
+  }
+
+  .hero-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 60px 60px 80px;
+    position: relative;
+    z-index: 10;
+    gap: 60px;
+  }
+
+  .hero-left { flex: 1; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-light);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--green-light);
+  }
+
+  .hero-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 17px;
+    line-height: 1.7;
+    max-width: 440px;
+    margin-bottom: 44px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--white);
+    color: var(--green-dark);
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.25s;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+  .btn-primary:hover {
+    background: var(--green-light);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,135,81,0.4);
+  }
+  .btn-primary svg { width: 18px; height: 18px; }
+
+  .btn-ghost {
+    border: 1.5px solid rgba(255,255,255,0.35);
+    color: var(--white);
+    padding: 16px 36px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 15px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.25s;
+    backdrop-filter: blur(8px);
+  }
+  .btn-ghost:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-1px);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .stat strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--white);
+  }
+  .stat span {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-card {
+    flex-shrink: 0;
+    width: 380px;
+    background: rgba(255,255,255,0.11);
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 24px;
+    padding: 36px;
+    backdrop-filter: blur(24px);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+  }
+
+  .hero-card h3 {
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    opacity: 1;
+    margin-bottom: 22px;
+    background: linear-gradient(90deg, #00e87a, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .doc-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .doc-item:last-of-type { border-bottom: none; }
+
+  .doc-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(0,210,110,0.45), rgba(0,140,75,0.35));
+    border: 1.5px solid rgba(0,230,120,0.35);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 24px;
+    box-shadow: 0 4px 16px rgba(0,200,100,0.25);
+  }
+
+  .doc-text strong {
+    display: block;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.2px;
+  }
+  .doc-text span {
+    color: rgba(200,255,225,0.8);
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  /* ── FEES ─────────────────────────────────────────── */
+  .section {
+    padding: 90px 60px;
+  }
+
+  .section-label {
+    display: inline-block;
+    background: rgba(0,135,81,0.1);
+    color: var(--green);
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 900;
+    color: var(--charcoal);
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .section-sub {
+    color: var(--mid);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 540px;
+    font-weight: 300;
+  }
+
+  .fees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    margin-top: 50px;
+  }
+
+  .fee-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .fee-card:hover {
+    border-color: var(--green);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
+  .fee-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--green);
+  }
+
+  .fee-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .fee-card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+
+  .fee-card p {
+    color: var(--mid);
+    font-size: 14px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .fee-note {
+    background: #fff8e6;
+    border: 1.5px solid #f0d080;
+    border-radius: 14px;
+    padding: 18px 24px;
+    margin-top: 28px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .fee-note-icon { font-size: 20px; }
+  .fee-note p { color: #7a5c00; font-size: 14px; line-height: 1.6; }
+  .fee-note strong { color: #5c4200; }
+
+  /* ── BOOKING ─────────────────────────────────────── */
+  .booking-section {
+    background: var(--green-dark);
+    position: relative;
+    overflow: hidden;
+  }
+  .booking-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--green-light) 0%, transparent 70%);
+    opacity: 0.12;
+  }
+
+  .booking-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .booking-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .booking-info p {
+    color: rgba(255,255,255,0.65);
+    font-size: 16px;
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 36px;
+  }
+
+  .booking-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: rgba(255,255,255,0.8);
+    font-size: 15px;
+  }
+  .detail-row svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--green-light); }
+
+  .booking-form-card {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 44px 40px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  }
+
+  .booking-form-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .booking-form-card > p {
+    color: var(--mid);
+    font-size: 14px;
+    margin-bottom: 30px;
+    font-weight: 300;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--charcoal);
+    background: var(--cream);
+    transition: all 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--green);
+    background: var(--white);
+    box-shadow: 0 0 0 4px rgba(0,135,81,0.08);
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .gcal-btn {
+    width: 100%;
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.25s;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+  .gcal-btn:hover {
+    background: var(--green-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,135,81,0.3);
+  }
+  .gcal-btn svg { width: 20px; height: 20px; }
+
+  .form-disclaimer {
+    text-align: center;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── PROCESS ─────────────────────────────────────── */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    margin-top: 56px;
+    position: relative;
+  }
+
+  .process-step {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .process-step:hover {
+    border-color: var(--green);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
+
+  .step-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: rgba(0,135,81,0.08);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .step-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: rgba(0,135,81,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin: 0 auto 16px;
+  }
+
+  .process-step h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 10px;
+  }
+
+  .process-step p {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* ── LOCATION ─────────────────────────────────────── */
+  .location-section {
+    background: var(--charcoal);
+    padding: 90px 60px;
+  }
+
+  .location-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .location-section .section-title { color: var(--white); }
+  .location-section .section-sub { color: rgba(255,255,255,0.5); }
+
+  .address-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 36px;
+    margin-top: 36px;
+  }
+
+  .address-card h4 {
+    color: var(--green-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .address-card address {
+    font-style: normal;
+    color: var(--white);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 15px;
+    transition: color 0.2s;
+  }
+  .contact-link:hover { color: var(--green-light); }
+  .contact-link svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .map-embed {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    height: 360px;
+    position: relative;
+  }
+
+  .map-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* ── FOOTER ─────────────────────────────────────── */
+  footer {
+    background: #0f0f0f;
+    padding: 40px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .footer-logo-badge {
+    width: 40px; height: 40px;
+    background: var(--green);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--white);
+  }
+  .footer-logo span {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+  }
+
+  footer p {
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  footer a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--green-light); }
+
+  /* ── MODAL ────────────────────────────────────────── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(6px);
+  }
+  .modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--white);
+    border-radius: 28px;
+    padding: 48px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+  .modal-overlay.active .modal { transform: translateY(0); }
+
+  .modal-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: rgba(0,135,81,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px;
+    margin: 0 auto 24px;
+  }
+
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+
+  .modal p {
+    color: var(--mid);
+    font-size: 15px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .modal-btn-primary {
+    flex: 1;
+    background: var(--green);
+    color: var(--white);
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .modal-btn-primary:hover { background: var(--green-dark); }
+
+  .modal-btn-secondary {
+    flex: 1;
+    background: var(--cream);
+    color: var(--charcoal);
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .modal-btn-secondary:hover { background: #eee; }
+
+  /* ── FAMILY BOOKING UI ───────────────────────────── */
+  .booking-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 2px;
+  }
+
+  .toggle-btn {
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mid);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .toggle-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(0,135,81,0.05);
+  }
+  .toggle-btn.active {
+    border-color: var(--green);
+    background: rgba(0,135,81,0.08);
+    color: var(--green-dark);
+  }
+
+  .family-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    margin-top: 4px;
+  }
+  .family-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .family-count {
+    background: var(--green);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+  }
+
+  .member-card {
+    background: var(--cream);
+    border: 1.5px solid #e8e8e8;
+    border-radius: 14px;
+    padding: 18px 16px 14px;
+    margin-bottom: 12px;
+    position: relative;
+    transition: border-color 0.2s;
+    animation: slideIn 0.25s ease;
+  }
+  .member-card:hover { border-color: rgba(0,135,81,0.3); }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .member-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .member-number {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--green-dark);
+  }
+  .member-number-badge {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .remove-member-btn {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(200,30,30,0.08);
+    color: #c0392b;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .remove-member-btn:hover { background: rgba(200,30,30,0.18); }
+
+  .member-card .form-group { margin-bottom: 10px; }
+  .member-card .form-group:last-child { margin-bottom: 0; }
+  .member-card .form-group label { font-size: 10px; margin-bottom: 5px; }
+  .member-card .form-group input,
+  .member-card .form-group select {
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 9px;
+  }
+  .member-card .form-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .add-member-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px dashed rgba(0,135,81,0.35);
+    background: transparent;
+    color: var(--green);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    margin-bottom: 14px;
+  }
+  .add-member-btn:hover {
+    background: rgba(0,135,81,0.06);
+    border-color: var(--green);
+  }
+
+  .family-fee-note {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: rgba(0,135,81,0.06);
+    border: 1px solid rgba(0,135,81,0.18);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--green-dark);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .member-card .form-row { grid-template-columns: 1fr; gap: 0; }
+    .booking-toggle { grid-template-columns: 1fr 1fr; }
+  }
+  @media (hover: none) {
+    .fee-card:hover,
+    .process-step:hover,
+    .btn-primary:hover,
+    .btn-ghost:hover,
+    .nav-cta:hover,
+    .gcal-btn:hover { transform: none; }
+  }
+
+  /* Ensure all tap targets are at least 44px */
+  .nav-cta, .btn-primary, .btn-ghost, .gcal-btn,
+  .modal-btn-primary, .modal-btn-secondary,
+  .contact-link { min-height: 44px; }
+
+  /* Prevent text size adjustment on orientation change */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  /* Smooth scrolling momentum on iOS */
+  body { -webkit-overflow-scrolling: touch; }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── TABLET (max 900px) ─────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 28px; }
+    .logo-text span { display: none; }
+
+    .hero-body {
+      flex-direction: column;
+      padding: 36px 28px 64px;
+      gap: 36px;
+      align-items: flex-start;
+    }
+    .hero-card { width: 100%; }
+    .hero-title { font-size: clamp(36px, 8vw, 52px); }
+    .hero-sub { font-size: 15px; max-width: 100%; }
+    .hero-stats { gap: 28px; margin-top: 40px; padding-top: 28px; }
+    .stat strong { font-size: 26px; }
+
+    .section { padding: 60px 28px; }
+    .fees-grid { grid-template-columns: 1fr 1fr; }
+
+    .booking-inner { grid-template-columns: 1fr; gap: 40px; }
+    .location-inner { grid-template-columns: 1fr; gap: 36px; }
+    .location-section { padding: 60px 28px; }
+
+    .form-row { grid-template-columns: 1fr 1fr; }
+
+    footer { padding: 30px 28px; flex-direction: column; text-align: center; }
+    .footer-logo { justify-content: center; }
+  }
+
+  /* ── MOBILE (max 600px) ─────────────────────────── */
+  @media (max-width: 600px) {
+    /* Nav */
+    nav {
+      padding: 14px 18px;
+      gap: 10px;
+    }
+    .logo-badge { width: 40px; height: 40px; font-size: 15px; border-radius: 10px; }
+    .logo-text strong { font-size: 15px; }
+    .nav-cta { padding: 8px 16px; font-size: 12px; letter-spacing: 0; }
+
+    /* Hero */
+    .hero { min-height: auto; }
+    .hero-body {
+      padding: 28px 18px 52px;
+      gap: 28px;
+    }
+    .hero-tag {
+      font-size: 10px;
+      padding: 5px 12px;
+      letter-spacing: 1px;
+      margin-bottom: 18px;
+    }
+    .hero-title {
+      font-size: clamp(30px, 9vw, 44px);
+      margin-bottom: 14px;
+    }
+    .hero-sub {
+      font-size: 14px;
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+    .hero-actions {
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    .btn-primary, .btn-ghost {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 20px;
+      font-size: 14px;
+    }
+    .hero-stats {
+      gap: 0;
+      margin-top: 32px;
+      padding-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .stat { text-align: center; }
+    .stat strong { font-size: 22px; }
+    .stat span { font-size: 10px; }
+
+    .hero-card {
+      padding: 22px 18px;
+      border-radius: 18px;
+      width: 100%;
+    }
+    .hero-card h3 { font-size: 11px; margin-bottom: 14px; }
+    .doc-item { padding: 13px 0; gap: 13px; }
+    .doc-icon { width: 44px; height: 44px; font-size: 20px; }
+    .doc-text strong { font-size: 13px; }
+    .doc-text span { font-size: 12px; }
+
+    /* Sections */
+    .section { padding: 48px 18px; }
+    .section-title { font-size: clamp(24px, 7vw, 34px); }
+    .section-sub { font-size: 14px; }
+    .section-label { font-size: 10px; }
+
+    /* Fees/doc grid → single column */
+    .fees-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .fee-card { padding: 26px 22px; }
+    .fee-amount { font-size: 40px; }
+    .fee-note { flex-direction: column; gap: 8px; padding: 16px 18px; }
+
+    /* Process grid → 2 columns */
+    .process-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .process-step { padding: 22px 16px; border-radius: 16px; }
+    .step-number { font-size: 40px; margin-bottom: 10px; }
+    .step-icon { width: 42px; height: 42px; font-size: 18px; margin-bottom: 12px; }
+    .process-step h4 { font-size: 13px; margin-bottom: 6px; }
+    .process-step p { font-size: 11px; }
+
+    /* Booking section */
+    .booking-section { padding: 48px 18px; }
+    .booking-inner { gap: 32px; }
+    .booking-info h2 { font-size: clamp(26px, 7vw, 38px); margin-bottom: 14px; }
+    .booking-info p { font-size: 14px; margin-bottom: 24px; }
+    .detail-row { font-size: 13px; gap: 10px; }
+    .detail-row svg { width: 17px; height: 17px; }
+
+    /* Form card */
+    .booking-form-card {
+      padding: 28px 20px;
+      border-radius: 20px;
+    }
+    .booking-form-card h3 { font-size: 22px; }
+    .booking-form-card > p { font-size: 13px; margin-bottom: 22px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { font-size: 11px; }
+    .form-group input,
+    .form-group select { padding: 12px 14px; font-size: 14px; border-radius: 10px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .gcal-btn { padding: 15px; font-size: 14px; border-radius: 12px; }
+
+    /* Location */
+    .location-section { padding: 48px 18px; }
+    .location-inner { gap: 28px; }
+    .address-card { padding: 24px 20px; border-radius: 16px; margin-top: 24px; }
+    .address-card address { font-size: 18px; margin-bottom: 18px; }
+    .contact-link { font-size: 13px; }
+    .map-embed { height: 240px; border-radius: 16px; }
+
+    /* Modal */
+    .modal { padding: 32px 24px; border-radius: 20px; }
+    .modal h3 { font-size: 22px; }
+    .modal p { font-size: 14px; margin-bottom: 22px; }
+    .modal-actions { flex-direction: column; gap: 10px; }
+    .modal-icon { width: 60px; height: 60px; font-size: 26px; margin-bottom: 18px; }
+
+    /* Footer */
+    footer {
+      padding: 28px 18px;
+      gap: 14px;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .footer-logo span { font-size: 12px; }
+
+    /* Decorative elements — shrink/hide some on mobile for perf */
+    .hero-circle-outline { width: 280px; height: 280px; right: -60px; }
+    .hero-circle-outline2 { width: 200px; height: 200px; right: -30px; }
+    .hero-arc-red { width: 320px; height: 320px; top: -100px; right: -100px; }
+    .hero-red-bar { right: 80px; }
+    .hero-red-bar2 { right: 64px; }
+  }
+
+  /* ── SMALL MOBILE (max 380px) ─────────────────────── */
+  @media (max-width: 380px) {
+    nav { padding: 12px 14px; }
+    .logo-badge { width: 36px; height: 36px; font-size: 13px; }
+    .logo-text strong { font-size: 13px; }
+    .nav-cta { padding: 7px 12px; font-size: 11px; }
+
+    .hero-body { padding: 22px 14px 44px; }
+    .hero-title { font-size: 28px; }
+
+    .section { padding: 38px 14px; }
+    .process-grid { grid-template-columns: 1fr; }
+    .fees-grid { grid-template-columns: 1fr; }
+
+    .booking-section { padding: 38px 14px; }
+    .booking-form-card { padding: 22px 16px; }
+
+    .location-section { padding: 38px 14px; }
+    footer { padding: 22px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="flag-bar">
+    <span class="g"></span><span class="w"></span><span class="g"></span><span class="r"></span>
+  </div>
+  <!-- Decorative pattern elements -->
+  <div class="hero-arc-red"></div>
+  <div class="hero-shard-cream"></div>
+  <div class="hero-red-bar"></div>
+  <div class="hero-red-bar2"></div>
+  <div class="hero-circle-outline"></div>
+  <div class="hero-circle-outline2"></div>
+  <div class="hero-red-glow"></div>
+  <div class="hero-hlines"></div>
+
+  <nav>
+    <div class="logo">
+      <div class="logo-badge">A</div>
+      <div class="logo-text">
+        <strong>Aldehyde Tech Solutions</strong>
+        <span>NIMC NIN Processing · Washington State</span>
+      </div>
+    </div>
+    <a href="#booking" class="nav-cta">Book Appointment →</a>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-left">
+      <div class="hero-tag">Aldehyde Tech Solutions — Washington State</div>
+      <h1 class="hero-title">
+        Get Your<br><em>NIN Processed</em><br>With Ease
+      </h1>
+      <p class="hero-sub">
+        Book your appointment at our Marysville, WA processing center and get your Nigerian National Identification Number efficiently and professionally.
+      </p>
+      <div class="hero-actions">
+        <a href="#booking" class="btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book Your Appointment
+        </a>
+        <a href="#requirements" class="btn-ghost">
+          View Requirements
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>$74</strong><span>NIMC Fee</span></div>
+        <div class="stat"><strong>$100</strong><span>Processing Fee</span></div>
+        <div class="stat"><strong>WA</strong><span>Marysville</span></div>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <h3>Required Documents</h3>
+      <div class="doc-item">
+        <div class="doc-icon">🧑</div>
+        <div class="doc-text">
+          <strong>For Adults</strong>
+          <span>NPC Attestation Certificate</span>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-icon">🇳🇬</div>
+        <div class="doc-text">
+          <strong>Children Born in Nigeria</strong>
+          <span>NPC Birth Certificate</span>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-icon">✈️</div>
+        <div class="doc-text">
+          <strong>Children Born Outside Nigeria</strong>
+          <span>NPC Birth Notification</span>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-icon">🪪</div>
+        <div class="doc-text">
+          <strong>All Applicants</strong>
+          <span>Passport or Driving License</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUIREMENTS -->
+<section class="section" id="requirements">
+  <div class="fade-up">
+    <div class="section-label">Documentation</div>
+    <h2 class="section-title">What You Need<br>to Bring</h2>
+    <p class="section-sub">To successfully obtain your NIN, you must present the appropriate certificate from the National Population Commission (NPC).</p>
+  </div>
+
+  <div class="fees-grid" style="margin-top:50px;">
+    <div class="fee-card fade-up">
+      <div class="step-icon">🧑‍💼</div>
+      <h4>Adults</h4>
+      <p><strong>NPC Attestation Certificate</strong> — Required for all adult applicants (18 years and above).</p>
+    </div>
+    <div class="fee-card fade-up" style="transition-delay:0.1s">
+      <div class="step-icon">👶</div>
+      <h4>Children Born in Nigeria</h4>
+      <p><strong>NPC Birth Certificate</strong> — Required for minors born within Nigeria.</p>
+    </div>
+    <div class="fee-card fade-up" style="transition-delay:0.2s">
+      <div class="step-icon">🌍</div>
+      <h4>Children Born Outside Nigeria</h4>
+      <p><strong>NPC Birth Notification</strong> — Required for Nigerian children born abroad.</p>
+    </div>
+    <div class="fee-card fade-up" style="transition-delay:0.3s">
+      <div class="step-icon">🪪</div>
+      <h4>Valid ID — All Applicants</h4>
+      <p>Bring a valid government-issued <strong>Passport</strong> or <strong>Driving License</strong> to your appointment.</p>
+    </div>
+  </div>
+
+  <div class="fee-note fade-up" style="margin-top:28px;">
+    <div class="fee-note-icon">⚠️</div>
+    <p>NPC certificates are obtainable from the official NPC website at <strong>https://nationalpopulation.gov.ng/</strong>. <strong>Your NIN cannot be issued without the appropriate NPC certificate.</strong></p>
+  </div>
+</section>
+
+<!-- FEES -->
+<section class="section" style="background:var(--white); padding-top:0;">
+  <div class="fade-up">
+    <div class="section-label">Fees</div>
+    <h2 class="section-title">Transparent Pricing</h2>
+    <p class="section-sub">Two payments are required. Pay NIMC online in advance and settle the processing fee after successful NIN issuance.</p>
+  </div>
+  <div class="fees-grid">
+    <div class="fee-card fade-up">
+      <div class="fee-amount">$74</div>
+      <h4>NIMC Fee</h4>
+      <p>Paid directly to NIMC online <strong>before</strong> your appointment. This is a mandatory government fee.</p>
+    </div>
+    <div class="fee-card fade-up" style="transition-delay:0.15s">
+      <div class="fee-amount">$100</div>
+      <h4>Processing Fee</h4>
+      <p>Paid <strong>after</strong> your NIN is successfully processed. Covers in-person assistance and document handling.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS STEPS -->
+<section class="section" id="process">
+  <div class="fade-up">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Simple 4-Step<br>Process</h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step fade-up">
+      <div class="step-number">01</div>
+      <div class="step-icon">📄</div>
+      <h4>Get NPC Certificate</h4>
+      <p>Obtain your NPC certificate from nationalpopulation.gov.ng based on your category.</p>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.1s">
+      <div class="step-icon">💳</div>
+      <div class="step-number">02</div>
+      <h4>Pay $74 to NIMC</h4>
+      <p>Complete the NIMC online payment before coming to your appointment.</p>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.2s">
+      <div class="step-icon">📅</div>
+      <div class="step-number">03</div>
+      <h4>Book Appointment</h4>
+      <p>Use the booking form below to schedule your preferred date and time via Google Calendar.</p>
+    </div>
+    <div class="process-step fade-up" style="transition-delay:0.3s">
+      <div class="step-icon">🎉</div>
+      <div class="step-number">04</div>
+      <h4>Attend & Receive NIN</h4>
+      <p>Attend with all documents. Pay the $100 processing fee upon successful issuance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking-section section" id="booking">
+  <div class="booking-inner">
+    <div class="booking-info fade-up">
+      <div class="section-label" style="background:rgba(255,255,255,0.12); color:rgba(255,255,255,0.8);">Appointments</div>
+      <h2>Book Your<br>Appointment<br>Today</h2>
+      <p>Select your preferred date and time with Aldehyde Tech Solutions. We'll send a Google Calendar invite directly to your email with everything you need to know.</p>
+      <div class="booking-details">
+        <div class="detail-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          5408 76th St NE, Marysville WA 98270
+        </div>
+        <div class="detail-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 9a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.9.35 1.84.6 2.81.7A2 2 0 0122 16.92z"/></svg>
+          425-275-7159 (call or text)
+        </div>
+        <div class="detail-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Available by appointment — choose your preferred time slot
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-form-card fade-up" style="transition-delay:0.15s">
+      <h3>Schedule Appointment</h3>
+      <p>Booking for yourself or your whole family — add as many members as needed.</p>
+
+      <!-- Primary contact -->
+      <div class="form-group">
+        <label>Primary Contact Name</label>
+        <input type="text" id="fullName" placeholder="e.g. Chidi Okonkwo" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="phone" placeholder="+1 (___) ___-____" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="you@email.com" />
+        </div>
+      </div>
+
+      <!-- Booking type toggle -->
+      <div class="form-group">
+        <label>Booking Type</label>
+        <div class="booking-toggle">
+          <button type="button" class="toggle-btn active" id="btnIndividual" onclick="setBookingType('individual')">
+            👤 Individual
+          </button>
+          <button type="button" class="toggle-btn" id="btnFamily" onclick="setBookingType('family')">
+            👨‍👩‍👧‍👦 Family
+          </button>
+        </div>
+      </div>
+
+      <!-- Individual applicant type (shown by default) -->
+      <div id="individualSection">
+        <div class="form-group">
+          <label>Application Type</label>
+          <select id="appType">
+            <option value="">Select applicant type...</option>
+            <option value="adult">Adult (NPC Attestation Certificate)</option>
+            <option value="child_nigeria">Child Born in Nigeria (NPC Birth Certificate)</option>
+            <option value="child_abroad">Child Born Outside Nigeria (NPC Birth Notification)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Family members section (hidden by default) -->
+      <div id="familySection" style="display:none;">
+        <div class="family-header">
+          <span class="family-label">👨‍👩‍👧‍👦 Family Members</span>
+          <span class="family-count" id="memberCount">1 member</span>
+        </div>
+        <div id="membersList"></div>
+        <button type="button" class="add-member-btn" onclick="addMember()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Another Family Member
+        </button>
+        <div class="family-fee-note">
+          <span>💡</span>
+          <span>Each member requires their own NPC certificate & $74 NIMC fee. Processing fee: $100 per person.</span>
+        </div>
+      </div>
+
+      <!-- Date & time (shared) -->
+      <div class="form-row" style="margin-top:4px;">
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date" id="prefDate" />
+        </div>
+        <div class="form-group">
+          <label>Preferred Time</label>
+          <select id="prefTime">
+            <option value="">Select time...</option>
+            <option>9:00 AM</option>
+            <option>10:00 AM</option>
+            <option>11:00 AM</option>
+            <option>12:00 PM</option>
+            <option>1:00 PM</option>
+            <option>2:00 PM</option>
+            <option>3:00 PM</option>
+            <option>4:00 PM</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="gcal-btn" onclick="openCalendar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Open Google Calendar to Book
+      </button>
+      <p class="form-disclaimer">You'll be redirected to Google Calendar to confirm your appointment. A calendar invite will be sent to your email.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location-section" id="location">
+  <div class="location-inner">
+    <div class="fade-up">
+      <div class="section-label" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.7);">Find Us</div>
+      <h2 class="section-title">Processing Center<br>Location</h2>
+      <p class="section-sub">Conveniently located in Marysville, Washington. Aldehyde Tech Solutions proudly serves the Nigerian community across Washington State.</p>
+      <div class="address-card">
+        <h4>Processing Center</h4>
+        <address>5408 76th St NE<br>Marysville, WA 98270</address>
+        <div class="contact-links">
+          <a href="tel:4252757159" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.72A2 2 0 012 2h3a2 2 0 012 1.72c.13.81.35 1.6.7 2.81a2 2 0 01-.45 2.11L6.91 9a16 16 0 006 6l.91-.91a2 2 0 012.11-.45c.9.35 1.84.6 2.81.7A2 2 0 0122 16.92z"/></svg>
+            425-275-7159
+          </a>
+          <a href="sms:4252757159" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            Text us at 425-275-7159
+          </a>
+          <a href="https://nationalpopulation.gov.ng/" target="_blank" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            nationalpopulation.gov.ng (NPC Certificates)
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-embed fade-up" style="transition-delay:0.15s">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2672.0!2d-122.1700!3d48.0500!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s5408+76th+St+NE%2C+Marysville%2C+WA+98270!5e0!3m2!1sen!2sus!4v1234567890"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-badge">A</div>
+    <span>Aldehyde Tech Solutions · NIMC NIN Processing · Washington State</span>
+  </div>
+  <p>© 2025 · Aldehyde Tech Solutions · NIMC NIN Processing in the State of Washington</p>
+  <a href="tel:4252757159">425-275-7159</a>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="calModal">
+  <div class="modal">
+    <div class="modal-icon">📅</div>
+    <h3 id="modalTitle">Almost There!</h3>
+    <p id="modalBody">You'll now be taken to Google Calendar to confirm your appointment booking. Make sure you're signed into your Google account.</p>
+    <div class="modal-actions">
+      <a href="#" id="calLink" class="modal-btn-primary" target="_blank">
+        Open Google Calendar
+      </a>
+      <button class="modal-btn-secondary" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Set min date to today
+  document.getElementById('prefDate').min = new Date().toISOString().split('T')[0];
+
+  const typeLabels = {
+    adult: 'Adult – NPC Attestation Certificate',
+    child_nigeria: 'Child Born in Nigeria – NPC Birth Certificate',
+    child_abroad: 'Child Born Outside Nigeria – NPC Birth Notification'
+  };
+
+  let bookingMode = 'individual';
+  let memberCount = 0;
+
+  // ── Booking type toggle ──────────────────────────
+  function setBookingType(mode) {
+    bookingMode = mode;
+    document.getElementById('individualSection').style.display = mode === 'individual' ? '' : 'none';
+    document.getElementById('familySection').style.display    = mode === 'family'     ? '' : 'none';
+    document.getElementById('btnIndividual').classList.toggle('active', mode === 'individual');
+    document.getElementById('btnFamily').classList.toggle('active', mode === 'family');
+
+    // Auto-seed first family member if none yet
+    if (mode === 'family' && memberCount === 0) addMember();
+  }
+
+  // ── Add a family member row ──────────────────────
+  function addMember() {
+    memberCount++;
+    const id = 'member_' + Date.now();
+    const list = document.getElementById('membersList');
+
+    const card = document.createElement('div');
+    card.className = 'member-card';
+    card.id = id;
+    card.innerHTML = `
+      <div class="member-card-header">
+        <div class="member-number">
+          <div class="member-number-badge">${memberCount}</div>
+          Member ${memberCount}
+        </div>
+        ${memberCount > 1
+          ? `<button type="button" class="remove-member-btn" onclick="removeMember('${id}')" title="Remove">✕</button>`
+          : '<span style="font-size:11px;color:#aaa;">Primary</span>'}
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="e.g. Amaka Okonkwo" class="member-name" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Application Type</label>
+          <select class="member-type">
+            <option value="">Select type...</option>
+            <option value="adult">Adult</option>
+            <option value="child_nigeria">Child (Nigeria)</option>
+            <option value="child_abroad">Child (Abroad)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Relationship</label>
+          <select class="member-relation">
+            <option value="self">Self</option>
+            <option value="spouse">Spouse</option>
+            <option value="child">Child</option>
+            <option value="parent">Parent</option>
+            <option value="sibling">Sibling</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+    updateMemberCount();
+  }
+
+  // ── Remove a family member row ───────────────────
+  function removeMember(id) {
+    document.getElementById(id).remove();
+    // Renumber remaining cards
+    memberCount = 0;
+    document.querySelectorAll('.member-card').forEach(card => {
+      memberCount++;
+      card.querySelector('.member-number-badge').textContent = memberCount;
+      card.querySelector('.member-number').childNodes[2].textContent = ' Member ' + memberCount;
+    });
+    updateMemberCount();
+  }
+
+  function updateMemberCount() {
+    const n = document.querySelectorAll('.member-card').length;
+    document.getElementById('memberCount').textContent = n + (n === 1 ? ' member' : ' members');
+  }
+
+  // ── Build & open Google Calendar + Send Email ────
+  function openCalendar() {
+    const name  = document.getElementById('fullName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const date  = document.getElementById('prefDate').value;
+    const time  = document.getElementById('prefTime').value;
+
+    if (!name || !date || !time) {
+      alert('Please fill in your Contact Name, Preferred Date and Time to continue.');
+      return;
+    }
+
+    let bookingTypeSummary, membersSummary;
+
+    if (bookingMode === 'individual') {
+      const type = document.getElementById('appType').value;
+      if (!type) { alert('Please select your Application Type.'); return; }
+      bookingTypeSummary = 'Individual — ' + typeLabels[type];
+      membersSummary = '—';
+    } else {
+      const cards = document.querySelectorAll('.member-card');
+      if (cards.length === 0) { alert('Please add at least one family member.'); return; }
+
+      const members = [];
+      let valid = true;
+      cards.forEach((card, i) => {
+        const mName     = card.querySelector('.member-name').value.trim();
+        const mType     = card.querySelector('.member-type').value;
+        const mRelation = card.querySelector('.member-relation').value;
+        if (!mName || !mType) {
+          alert(`Please complete the name and application type for Member ${i + 1}.`);
+          valid = false;
+          return;
+        }
+        members.push({ name: mName, type: mType, relation: mRelation });
+      });
+      if (!valid) return;
+
+      bookingTypeSummary = `Family — ${members.length} member(s)`;
+      membersSummary = members.map((m, i) =>
+        `${i+1}. ${m.name} [${typeLabels[m.type]}] (${m.relation})`
+      ).join('\n');
+    }
+
+    // ── Send email via Formspree ──────────────────
+    const btn = document.querySelector('.gcal-btn');
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="animation:spin 1s linear infinite"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Sending & Opening Calendar…`;
+    btn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('_replyto',  email || 'no-reply@aldehyde.com');
+    formData.append('_subject',  `📋 New NIN Booking — ${name} | Aldehyde Tech Solutions`);
+    formData.append('Name',          name);
+    formData.append('Phone',         phone       || 'N/A');
+    formData.append('Email',         email       || 'N/A');
+    formData.append('Booking Type',  bookingTypeSummary);
+    formData.append('Members',       membersSummary);
+    formData.append('Preferred Date', date);
+    formData.append('Preferred Time', time);
+    formData.append('_template',     'table');
+
+    fetch('https://formspree.io/f/xkoqjebe', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      document.getElementById('calLink').href = 'https://calendar.app.google/MxBcy7CFbiQ2muAa6';
+      document.getElementById('calModal').classList.add('active');
+    })
+    .catch(() => {
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
+      document.getElementById('calLink').href = 'https://calendar.app.google/MxBcy7CFbiQ2muAa6';
+      document.getElementById('calModal').classList.add('active');
+    });
+  }
+
+  function closeModal() {
+    document.getElementById('calModal').classList.remove('active');
+  }
+
+  document.getElementById('calModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  function convertTo24(timeStr) {
+    if (!timeStr) return '09:00:00';
+    const [time, period] = timeStr.split(' ');
+    let [hours, minutes] = time.split(':');
+    hours = parseInt(hours);
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return `${String(hours).padStart(2,'0')}:${minutes}:00`;
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
